@@ -1,7 +1,7 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+/*error_reporting(E_ALL);
+ini_set('display_errors', 1);*/
 
 function error($error_msg) {
     echo 'Error: '.$error_msg.PHP_EOL;
@@ -38,6 +38,8 @@ function get_folder_name($html) {
     }
     return $folder_name;
 }
+
+$start_time = microtime(true);
 
 // Passed argument errors
 if (count($argv)<3) {
@@ -100,7 +102,7 @@ for ($number=$number_start; $number<=$number_end; $number++) {          // Downl
 
         }*/
     
-    if ($html = file_get_contents($url)) {
+    if ($html = @file_get_contents($url)) {
         $date = get_date($html);
         $folder = get_folder_name($html);
         $image_url_pattern = "/http:\/\/cfile[0-9]*\.uf.tistory.com\/original\/[\w]*/";
@@ -118,9 +120,9 @@ for ($number=$number_start; $number<=$number_end; $number++) {          // Downl
         
         foreach ($image_array as $image) {
             if ($num==1) {
-                file_put_contents($directory."pictures\\".$folder."\\".$date.".jpg", fopen($image[0], 'r'));
+                @file_put_contents($directory."pictures\\".$folder."\\".$date.".jpg", fopen($image[0], 'r'));
             } else {
-                file_put_contents($directory."pictures\\".$folder."\\".$date."(".$num.").jpg", fopen($image[0], 'r'));
+                @file_put_contents($directory."pictures\\".$folder."\\".$date."(".$num.").jpg", fopen($image[0], 'r'));
             }
             $num++;
         }
@@ -129,3 +131,4 @@ for ($number=$number_start; $number<=$number_end; $number++) {          // Downl
     }
 }
 echo '100%'.PHP_EOL;
+echo microtime(true) - $start_time;
