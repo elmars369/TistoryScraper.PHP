@@ -1,31 +1,29 @@
 <?php
 
 function get_tistory_class($url) {
-    if (substr($url, 0, 4) != "http") {
+    
+    $TISTORIES = array("20150421", "ohmy8irl");
+    
+    if (substr($url, 0, 4) != "http") { // Can't connect without a http or https wrapper, add it if absent.
         $url = "http://" . $url;
     }
     if ($html = @file_get_contents($url)) {
-        $pattern = "/<title>.*<\/title>/";
-        $title_array = array();
-        preg_match($pattern, $html, $title_array);
-        $title = $title_array[0];
-        if (preg_match("/남똑/", $title)) { // http://www.20150421.com
-            $class = 'Tistory_20150421';
-            $included = (include 'classes/'.$class.'.class.php');
-        } elseif (preg_match("/찰캉찰캉/", $title)) {   // http://ohmy8irl.tistory.com/
-            $class = 'Tistory_ohmy8irl';
-            $included = (include 'classes/'.$class.'.class.php');
-        } else {
-            $class = 'GenericTistory';
-            $included = (include 'classes/'.$class.'.class.php');   // Generic tistory.
+        // Check if the provided Tistory has a special class
+        
+        for ($i = 0; $i < count($TISTORIES); $i++) {
+            if (preg_match($TISTORIES[$i], $url) == 1) {
+                $class = "Tistory_" . $TISTORIES[$i];
+                $included = (include 'classes/'.$class.'.class.php');
+                $i = count($TISTORIES);
+            }
         }
-        if (!$included) {
+        if (!isset($included) || $included == FALSE) {
             $class = 'GenericTistory';
             require 'classes/'.$class.'.class.php';
         }
         $tistory_class = new $class($url);
         return $tistory_class;
     } else {
-        return FALSE;
+        return FALSE;   // Can't connect.
     }
 }

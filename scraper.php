@@ -8,13 +8,12 @@ require 'get_tistory_class.function.php';
 function error($error_msg) {
     echo 'Error: '.$error_msg.PHP_EOL;
     echo 'Arguments needed:'.PHP_EOL
-    .    '1. Directory (pictures will be saved here, inside a folder "pictures")'.PHP_EOL
+    .    '1. Directory (pictures will be saved here, inside a folder named after the provided URL)'.PHP_EOL
     .    '2. URL (the tistories URL)'.PHP_EOL
     .    '3. Number > 0 (number that denotes where to download from; ex. 16 will download pictures from URL/16)'.PHP_EOL
-    .    '4. Number >= 2nd arg [optional] (if enetered, will download from all urls starting from the 2nd arg through the 3rd arg (including))'.PHP_EOL;
+    .    '4. Number >= 2nd arg [optional] (if enetered, will download from all urls starting from the 3rd arg through the 4th arg (including))'.PHP_EOL;
     die();
 }
-
 
 $start_time = microtime(true);
 
@@ -31,15 +30,15 @@ if (!is_dir($argv[1])) {
 if ($argv[3]<1) {
     error('Second argument needs to be a positive number.');
 }
-if ($argv[4]!=NULL && $argv[4]<$argv[3]) {
+if (isset($argv[4]) && $argv[4]<$argv[3]) {
     error('Third argument needs to be a number that is larger or equal to the second argument.');
 }
 // Passed argument errors
 
 
 $directory = $argv[1];
-if (substr($directory, -1) != '\\') {       // Add backslash to dirrectory name if there already isn't one.
-    $directory .= '\\';
+if (substr($directory, -1) != '\\' && substr($directory, -1) != '/') {       // Add backslash to dirrectory name if there already isn't one.
+    $directory .= '/';
 }
 $number_start = $argv[3];
 if (count($argv)==4) {                      // If a third argument is not passed, set the end number the same as the start number.

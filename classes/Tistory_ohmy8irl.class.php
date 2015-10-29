@@ -1,6 +1,6 @@
 <?php
 require 'GenericTistory.class.php';
-class Tistory_20150421 extends GenericTistory {
+class Tistory_ohmy8irl extends GenericTistory {
     public $tistoryUrl;
     public $html;
     public $fileName;
@@ -12,19 +12,14 @@ class Tistory_20150421 extends GenericTistory {
     
     public function __construct($url) {
         parent::__construct($url);
+        $this->imageUrlPattern = "/http[s]?:\/\/www\.googledrive\.com\/host\/[\w]*/";
     }
     
     public function setFileName() {
         parent::setFileName();
     }
     public function setSubFolderName() {
-        $folder_name_array = array();
-        $pattern = "/Filed under : <a href=\".*\">.*\((.*)\)<\/a>/";
-        if (preg_match($pattern, $this->html, $folder_name_array) == 1) {
-            $this->subFolderName = $folder_name_array[1];
-        } else {
-            parent::setSubFolderName();
-        }
+        parent::setSubFolderName();
     }
     public function setImageArray() {
         parent::setImageArray();
