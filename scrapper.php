@@ -15,7 +15,6 @@ function error($error_msg) {
     die();
 }
 
-
 $start_time = microtime(true);
 
 // Passed argument errors
@@ -31,15 +30,15 @@ if (!is_dir($argv[1])) {
 if ($argv[3]<1) {
     error('Second argument needs to be a positive number.');
 }
-if ($argv[4]!=NULL && $argv[4]<$argv[3]) {
+if (isset($argv[4]) && $argv[4]<$argv[3]) {
     error('Third argument needs to be a number that is larger or equal to the second argument.');
 }
 // Passed argument errors
 
 
 $directory = $argv[1];
-if (substr($directory, -1) != '\\') {       // Add backslash to dirrectory name if there already isn't one.
-    $directory .= '\\';
+if (substr($directory, -1) != '\\' && substr($directory, -1) != '/') {       // Add backslash to dirrectory name if there already isn't one.
+    $directory .= '/';
 }
 $number_start = $argv[3];
 if (count($argv)==4) {                      // If a third argument is not passed, set the end number the same as the start number.
