@@ -43,7 +43,10 @@ class GenericTistory {
     }
     public function prepareDirectory($directory) {
         $this->mainFolderName = substr($this->tistoryUrl, strpos($this->tistoryUrl, '://')+3);
-        if (strpos($this->mainFolderName, '/') != FALSE) {
+        if (strpos($this->mainFolderName, 'www.') !== FALSE) {
+            $this->mainFolderName = substr($this->mainFolderName, strpos($this->mainFolderName, 'www.')+4);
+        }
+        if (strpos($this->mainFolderName, '/') !== FALSE) {
             $this->mainFolderName = substr($this->mainFolderName, 0, strpos($this->mainFolderName, '/'));
         }
         if(!is_dir($directory.$this->mainFolderName."/".$this->subFolderName)) {   // Make folder if it does not exist.

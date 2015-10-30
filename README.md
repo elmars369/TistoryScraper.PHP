@@ -9,3 +9,9 @@ Arguments needed:
 Examples:
     >php.exe -f scraper.php -- C:\Users\User\Desktop http://www.20150421.com/ 5
     >php.exe -f scraper.php -- C:\Users\User\Desktop ohmy8irl.tistory.com 1 40
+
+
+Tested Tistories:
+    http://www.20150421.com/
+    http://ohmy8irl.tistory.com/
+    http://990618.net/
