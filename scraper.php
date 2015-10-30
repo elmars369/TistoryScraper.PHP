@@ -25,7 +25,9 @@ if (count($argv)>5) {
     error('Too many arguments passed.');
 }
 if (!is_dir($argv[1])) {
-    error('Passed directory does not exist.');
+    if (!@mkdir($argv[1], 0777, TRUE)) {
+        error('Passed directory does not exist and can\'t be made.');
+    }
 }
 if ($argv[3]<1) {
     error('Second argument needs to be a positive number.');

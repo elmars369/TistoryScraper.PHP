@@ -2,16 +2,16 @@
 
 function get_tistory_class($url) {
     
-    $TISTORIES = array("20150421", "ohmy8irl");
+    $TISTORIES = array("20150421", "ohmy8irl", "990618");
     
     if (substr($url, 0, 4) != "http") { // Can't connect without a http or https wrapper, add it if absent.
         $url = "http://" . $url;
     }
     if ($html = @file_get_contents($url)) {
         // Check if the provided Tistory has a special class
-        
+
         for ($i = 0; $i < count($TISTORIES); $i++) {
-            if (preg_match($TISTORIES[$i], $url) == 1) {
+            if (preg_match("/" . $TISTORIES[$i] . "/", $url) == 1) {
                 $class = "Tistory_" . $TISTORIES[$i];
                 $included = (include 'classes/'.$class.'.class.php');
                 $i = count($TISTORIES);
