@@ -15,3 +15,4 @@ Tested Tistories:
     http://www.20150421.com/
     http://ohmy8irl.tistory.com/
     http://990618.net/
+    http://all-twice.com/
