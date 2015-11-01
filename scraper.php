@@ -30,10 +30,10 @@ if (!is_dir($argv[1])) {
     }
 }
 if ($argv[3]<1) {
-    error('Second argument needs to be a positive number.');
+    error('Third argument needs to be a positive number.');
 }
 if (isset($argv[4]) && $argv[4]<$argv[3]) {
-    error('Third argument needs to be a number that is larger or equal to the second argument.');
+    error('Fourth argument needs to be a number that is larger or equal to the second argument.');
 }
 // Passed argument errors
 
