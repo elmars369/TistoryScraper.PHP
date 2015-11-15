@@ -1,7 +1,6 @@
 <?php
 
 class GenericTistory {
-    public $tistoryUrl;
     public $html;
     public $fileName;
     public $mainFolderName;
@@ -9,9 +8,11 @@ class GenericTistory {
     public $imageUrlPattern;
     public $imageArray;
     public $fileNumber;
-    
-    public function __construct($url) {
-        $this->tistoryUrl = $url;
+    public $parameters;
+    public $sortPatternArray;
+
+
+    public function __construct($parameters) {
         $this->html = '';
         $this->fileName = '';
         $this->mainFolderName = '';
@@ -19,6 +20,10 @@ class GenericTistory {
         $this->imageArray = array();
         $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/original\/[\w]*/";
         $this->fileNumber = 1;
+        $this->parameters = $parameters;
+        $this->sortPatternArray = array(
+            "default" => "/<title>.*([0-9][0-9][0-1][0-9][0-3][0-9])/"
+        );
     }
     public function setFileName() {
         $file_name_array = array();
@@ -31,62 +36,71 @@ class GenericTistory {
     }
     public function setSubFolderName() {
         $folder_name_array = array();
-        $pattern = "/<title>.*([0-9][0-9][0-1][0-9][0-3][0-9])/";
-        if (preg_match($pattern, $this->html, $folder_name_array) == 1) {
-            $this->subFolderName = $folder_name_array[1];
+        if ($this->parameters->sort == "none") {
+            $this->subFolderName = "";
         } else {
-            $this->subFolderName = $this->mainFolderName;
+            if (array_key_exists($this->parameters->sort, $this->sortPatternArray)) {
+                $pattern = $this->sortPatternArray[$this->parameters->sort];
+            } else {
+                $pattern = $this->sortPatternArray["default"];
+            }
+            if (preg_match($pattern, $this->html, $folder_name_array) == 1) {
+                $this->subFolderName = $folder_name_array[1];
+            } else {
+                $this->subFolderName = $this->mainFolderName;
+            }
         }
     }
     public function setImageArray() {
-        preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray, PREG_SET_ORDER);
+        preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
     }
-    public function prepareDirectory($directory) {
-        $this->mainFolderName = substr($this->tistoryUrl, strpos($this->tistoryUrl, '://')+3);
+    public function prepareDirectory() {
+        $this->mainFolderName = substr($this->parameters->url, strpos($this->parameters->url, '://')+3);
         if (strpos($this->mainFolderName, 'www.') !== FALSE) {
             $this->mainFolderName = substr($this->mainFolderName, strpos($this->mainFolderName, 'www.')+4);
         }
         if (strpos($this->mainFolderName, '/') !== FALSE) {
             $this->mainFolderName = substr($this->mainFolderName, 0, strpos($this->mainFolderName, '/'));
         }
-        if(!is_dir($directory.$this->mainFolderName."/".$this->subFolderName)) {   // Make folder if it does not exist.
-            mkdir($directory.$this->mainFolderName."/".$this->subFolderName, 0777, true);
+        if(!is_dir($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName)) {   // Make folder if it does not exist.
+            mkdir($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName, 0777, true);
         }
-        if (file_exists($directory.$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg")) {       // Check if images already exist with given name.
+        if (file_exists($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg")) {       // Check if images already exist with given name.
             $this->fileNumber++;
-            while (file_exists($directory.$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg")) {
+            while (file_exists($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg")) {
                 $this->fileNumber++;
             }
         }
     }
-    public function download($directory, $first, $last) {
-        if (!@file_get_contents($this->tistoryUrl)) {
-            echo 'Can not connect to '.$this->tistoryUrl;
-        } else {
-            for ($number=$first; $number<=$last; $number++) {          // Download from all URLs in th argument range.
-                if (round(($number-$first)/($last-$first+1)*100) != round(($number-$first-1)/($last-$first+1)*100)) {
-                    echo round(($number-$first)/($last-$first+1)*100).'%'.PHP_EOL;  // Percentage indicator.
-                }
-                $url = $this->tistoryUrl . '/' . $number;
-                if ($this->html = @file_get_contents($url)) {
-                    $this->setFileName();
-                    $this->setSubFolderName();
-                    $this->setImageArray();
-                    $this->prepareDirectory($directory);
-                    foreach ($this->imageArray as $image) {
-                        if ($this->fileNumber==1) {
-                            @file_put_contents($directory.$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image[0], 'r'));
-                        } else {
-                            @file_put_contents($directory.$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image[0], 'r'));
-                        }
-                        $this->fileNumber++;
+    public function download() {
+        $counter = 1;
+        $count = count($this->parameters->array);
+        echo '0%'.PHP_EOL;
+        foreach ($this->parameters->array as $number) {           // Download from all URLs in th argument range.
+            $url = $this->parameters->url . '/' . $number;
+            if ($this->html = @file_get_contents($url)) {
+                $this->setFileName();
+                $this->setSubFolderName();
+                $this->setImageArray();
+                $this->prepareDirectory();
+                foreach ($this->imageArray[0] as $image) {
+                    if ($this->fileNumber==1) {
+                        file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'));
+                    } else {
+                        file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image, 'r'));
                     }
-                    $this->fileNumber = 1;
-                } else {
-                    echo 'Failed to load '.$url.' --- skipped.'.PHP_EOL;
+                    $this->fileNumber++;
                 }
+                $this->fileNumber = 1;
+            } else {
+                echo 'Failed to load '.$url.' --- skipped.'.PHP_EOL;
             }
-            echo '100%'.PHP_EOL;
+            
+            if (round($counter*100/$count) != round(($counter-1)*100/$count)) {
+                echo round($counter*100/$count).'%'.PHP_EOL;  // Percentage indicator.
+                $counter++;
+            }
         }
+        
     }
 }

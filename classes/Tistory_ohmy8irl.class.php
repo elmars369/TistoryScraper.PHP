@@ -1,7 +1,6 @@
 <?php
 require 'GenericTistory.class.php';
 class Tistory_ohmy8irl extends GenericTistory {
-    public $tistoryUrl;
     public $html;
     public $fileName;
     public $mainFolderName;
@@ -9,12 +8,17 @@ class Tistory_ohmy8irl extends GenericTistory {
     public $imageUrlPattern;
     public $imageArray;
     public $fileNumber;
+    public $parameters;
+    public $sortPatternArray;
     
-    public function __construct($url) {
-        parent::__construct($url);
+    public function __construct($parameters) {
+        parent::__construct($parameters);
+        if (!extension_loaded('openssl')) {
+            echo "Extension \"openssl\" is not loaded. See README, section 6.1.";
+            die();
+        }
         $this->imageUrlPattern = "/http[s]?:\/\/www\.googledrive\.com\/host\/[\w]*/";
     }
-    
     public function setFileName() {
         parent::setFileName();
     }
@@ -24,10 +28,10 @@ class Tistory_ohmy8irl extends GenericTistory {
     public function setImageArray() {
         parent::setImageArray();
     }
-    public function prepareDirectory($directory) {
-        parent::prepareDirectory($directory);
+    public function prepareDirectory() {
+        parent::prepareDirectory();
     }
-    public function download($directory, $first, $last) {
-        parent::download($directory, $first, $last);
+    public function download() {
+        parent::download();
     }
 }

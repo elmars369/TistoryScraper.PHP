@@ -1,7 +1,6 @@
 <?php
 require 'GenericTistory.class.php';
 class Tistory_alltwice extends GenericTistory {
-    public $tistoryUrl;
     public $html;
     public $fileName;
     public $mainFolderName;
@@ -9,9 +8,14 @@ class Tistory_alltwice extends GenericTistory {
     public $imageUrlPattern;
     public $imageArray;
     public $fileNumber;
+    public $parameters;
+    public $sortPatternArray;
     
-    public function __construct($url) {
-        parent::__construct($url);
+    public function __construct($parameters) {
+        parent::__construct($parameters);
+        $this->sortPatternArray = array(
+            "default" => "/<title>.*([0-9][0-9]\/[0-1][0-9]\/[0-3][0-9])/"
+        );
     }
     public function setFileName() {
         $file_name_array = array();
@@ -23,21 +27,15 @@ class Tistory_alltwice extends GenericTistory {
         }
     }
     public function setSubFolderName() {
-        $folder_name_array = array();
-        $pattern = "/<title>.*([0-9][0-9]\/[0-1][0-9]\/[0-3][0-9])/";
-        if (preg_match($pattern, $this->html, $folder_name_array) == 1) {
-            $this->subFolderName = str_replace('/', '', $folder_name_array[1]);
-        } else {
-            $this->subFolderName = $this->mainFolderName;
-        }
+        parent::setSubFolderName();
     }
     public function setImageArray() {
         parent::setImageArray();
     }
-    public function prepareDirectory($directory) {
-        parent::prepareDirectory($directory);
+    public function prepareDirectory() {
+        parent::prepareDirectory();
     }
-    public function download($directory, $first, $last) {
-        parent::download($directory, $first, $last);
+    public function download() {
+        parent::download();
     }
 }

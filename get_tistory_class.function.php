@@ -1,11 +1,8 @@
 <?php
 
-function get_tistory_class($url) {
+function get_tistory_class($parameters) {
+    $url = $parameters->url;
     $TISTORIES = array("20150421", "ohmy8irl", "990618", "all-twice");
-    $url = strtolower($url);
-    if (substr($url, 0, 4) != "http") { // Can't connect without a http or https wrapper, add it if absent.
-        $url = "http://" . $url;
-    }
     if ($html = @file_get_contents($url)) {
         // Check if the provided Tistory has a special class
 
@@ -20,7 +17,7 @@ function get_tistory_class($url) {
             $class = 'GenericTistory';
             require 'classes/'.$class.'.class.php';
         }
-        $tistory_class = new $class($url);
+        $tistory_class = new $class($parameters);
         return $tistory_class;
     } else {
         return FALSE;   // Can't connect.
