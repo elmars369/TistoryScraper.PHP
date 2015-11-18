@@ -101,7 +101,7 @@ Table of contents
     // and stores them in the default manner.
     // Remember to incase your directory in double quotes if it includes a space.
 
-    >php.exe -f scraper.php -- "C:\Users\User\Desktop" "all-twice.com/" 1,10-13,20 none
+    >php.exe -f scraper.php -- "C:/Users/User/Desktop" "all-twice.com/" 1,10-13,20 none
     // Downloads pictures from "http://www.20150421.com/1", ".../10", ".../11", ".../12", ".../13", ".../20"
     // and stores them without using sub-folders.
 
