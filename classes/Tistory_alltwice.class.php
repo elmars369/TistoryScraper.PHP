@@ -28,6 +28,7 @@ class Tistory_alltwice extends GenericTistory {
     }
     public function setSubFolderName() {
         parent::setSubFolderName();
+        $this->subFolderName = str_replace('/', '', $this->subFolderName);
     }
     public function setImageArray() {
         parent::setImageArray();
