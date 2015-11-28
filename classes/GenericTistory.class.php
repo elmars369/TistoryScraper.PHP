@@ -73,9 +73,6 @@ class GenericTistory {
         }
     }
     public function download() {
-        $counter = 1;
-        $count = count($this->parameters->array);
-        echo '0%'.PHP_EOL;
         foreach ($this->parameters->array as $number) {           // Download from all URLs in th argument range.
             $url = $this->parameters->url . '/' . $number;
             if ($this->html = @file_get_contents($url)) {
@@ -83,24 +80,28 @@ class GenericTistory {
                 $this->setSubFolderName();
                 $this->setImageArray();
                 $this->prepareDirectory();
+                echo 'Downloaded from .../'.$number.' :';
                 foreach ($this->imageArray[0] as $image) {
                     if ($this->fileNumber==1) {
-                        file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'));
+                        if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'))) {
+                            echo ' '.$this->fileName.".jpg;";
+                        } else {
+                            echo ' '.$this->fileName.".jpg [failed];"; 
+                        }
                     } else {
-                        file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image, 'r'));
+                        if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image, 'r'))) {
+                            echo ' '.$this->fileName."(".$this->fileNumber.").jpg;";
+                        } else {
+                            echo ' '.$this->fileName."(".$this->fileNumber.").jpg [failed];"; 
+                        }
                     }
                     $this->fileNumber++;
                 }
                 $this->fileNumber = 1;
+                echo PHP_EOL.'Download of .../'.$number." complete.".PHP_EOL;
             } else {
                 echo 'Failed to load '.$url.' --- skipped.'.PHP_EOL;
             }
-            
-            if (round($counter*100/$count) != round(($counter-1)*100/$count)) {
-                echo round($counter*100/$count).'%'.PHP_EOL;  // Percentage indicator.
-            }
-            $counter++;
         }
-        
     }
 }
