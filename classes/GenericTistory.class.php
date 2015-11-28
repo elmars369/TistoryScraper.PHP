@@ -98,8 +98,8 @@ class GenericTistory {
             
             if (round($counter*100/$count) != round(($counter-1)*100/$count)) {
                 echo round($counter*100/$count).'%'.PHP_EOL;  // Percentage indicator.
-                $counter++;
             }
+            $counter++;
         }
         
     }
