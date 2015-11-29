@@ -80,7 +80,7 @@ class GenericTistory {
                 $this->setSubFolderName();
                 $this->setImageArray();
                 $this->prepareDirectory();
-                echo 'Downloaded from .../'.$number.' :';
+                echo 'Downloaded from .../'.$number.' to .../'.$this->subFolderName.' :';
                 foreach ($this->imageArray[0] as $image) {
                     if ($this->fileNumber==1) {
                         if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'))) {
