@@ -24,6 +24,8 @@ class Tistory_thestudio extends GenericTistory {
     }
     public function setImageArray() {
         parent::setImageArray();
+        array_shift($this->imageArray[0]);
+        array_shift($this->imageArray[0]);
     }
     public function prepareDirectory() {
         parent::prepareDirectory();
