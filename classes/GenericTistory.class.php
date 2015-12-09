@@ -86,13 +86,21 @@ class GenericTistory {
                         if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'))) {
                             echo ' '.$this->fileName.".jpg;";
                         } else {
-                            echo ' '.$this->fileName.".jpg [failed];"; 
+                            if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName.".jpg", fopen($image, 'r'))) {
+                                echo ' '.$this->fileName.".jpg;";
+                            } else {
+                                echo ' '.$this->fileName.".jpg [failed];"; 
+                            } 
                         }
                     } else {
                         if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image, 'r'))) {
                             echo ' '.$this->fileName."(".$this->fileNumber.").jpg;";
                         } else {
-                            echo ' '.$this->fileName."(".$this->fileNumber.").jpg [failed];"; 
+                            if (@file_put_contents($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName."/".$this->fileName."(".$this->fileNumber.").jpg", fopen($image, 'r'))) {
+                                echo ' '.$this->fileName."(".$this->fileNumber.").jpg;";
+                            } else {
+                                echo ' '.$this->fileName."(".$this->fileNumber.").jpg [failed];"; 
+                            }
                         }
                     }
                     $this->fileNumber++;
