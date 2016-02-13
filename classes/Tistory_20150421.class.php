@@ -19,7 +19,13 @@ class Tistory_20150421 extends GenericTistory {
         );
     }
     public function setFileName() {
-        parent::setFileName();
+        $file_name_array = array();
+        $pattern = "/<title>.*([0-9][0-9][0-1][0-9][0-3][0-9])/";
+        if (preg_match($pattern, $this->html, $file_name_array) == 1) {
+            $this->fileName = $file_name_array[1];
+        } else {
+            $this->fileName = "image";
+        }
     }
     public function setSubFolderName() {
         parent::setSubFolderName();

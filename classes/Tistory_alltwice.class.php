@@ -19,7 +19,7 @@ class Tistory_alltwice extends GenericTistory {
     }
     public function setFileName() {
         $file_name_array = array();
-        $pattern = "/<title>.*([0-9][0-9]\/[0-1][0-9]\/[0-3][0-9])/";
+        $pattern = $this->sortPatternArray["default"];
         if (preg_match($pattern, $this->html, $file_name_array) == 1) {
             $this->fileName = str_replace('/', '', $file_name_array[1]);
         } else {

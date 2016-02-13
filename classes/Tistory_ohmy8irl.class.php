@@ -17,6 +17,9 @@ class Tistory_ohmy8irl extends GenericTistory {
             echo "Extension \"openssl\" is not loaded. See README, section 6.1.";
             die();
         }
+        $this->sortPatternArray = array(
+            "default" => "/<meta name=\"twitter:title\" content=\"([0-9][0-9][0-1][0-9][0-3][0-9])/"
+        );
         $this->imageUrlPattern = "/http[s]?:\/\/www\.googledrive\.com\/host\/[\w]*/";
     }
     public function setFileName() {
