@@ -13,8 +13,9 @@ class Tistory_20150421 extends GenericTistory {
     
     public function __construct($parameters) {
         parent::__construct($parameters);
+        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/image\/[\w]*/";
         $this->sortPatternArray = array(
-            "default" => "/Filed under : <a href=\".*\">.*\((.*)\)<\/a>/",
+            "default" => "/<a href=\"\/category\/.*\">.*\((.*)\)<\/a>/",
             "date" => "/<title>.*([0-9][0-9][0-1][0-9][0-3][0-9])/"
         );
     }
