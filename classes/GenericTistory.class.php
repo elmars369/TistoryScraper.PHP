@@ -18,7 +18,7 @@ class GenericTistory {
         $this->mainFolderName = '';
         $this->subFolderName = '';
         $this->imageArray = array();
-        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/original\/[\w]*/";
+        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/image\/[\w]*/";
         $this->fileNumber = 1;
         $this->parameters = $parameters;
         $this->sortPatternArray = array(
@@ -53,6 +53,9 @@ class GenericTistory {
     }
     public function setImageArray() {
         preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
+        for ($i = 0; $i < count($this->imageArray[0]); $i++) {
+            str_replace("image", "original", $this->imageArray[0][$i]);
+        }
     }
     public function prepareDirectory() {
         $this->mainFolderName = substr($this->parameters->url, strpos($this->parameters->url, '://')+3);

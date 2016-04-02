@@ -13,24 +13,22 @@ class Tistory_990618 extends GenericTistory {
     
     public function __construct($parameters) {
         parent::__construct($parameters);
+        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/attach\/[\w]*/";
         $this->sortPatternArray = array(
             "default" => "/Sweetie :: ([0-9][0-9][0-1][0-9][0-3][0-9])/"
         );
     }
     public function setFileName() {
-        $file_name_array = array();
-        $pattern = $this->sortPatternArray["default"];
-        if (preg_match($pattern, $this->html, $file_name_array) == 1) {
-            $this->fileName = $file_name_array[1];
-        } else {
-            $this->fileName = "image";
-        }
+        parent::setFileName();
     }
     public function setSubFolderName() {
         parent::setSubFolderName();
     }
     public function setImageArray() {
-        parent::setImageArray();
+        preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
+        for ($i = 0; $i < count($this->imageArray[0]); $i++) {
+            str_replace("attach", "original", $this->imageArray[0][$i]);
+        }
     }
     public function prepareDirectory() {
         parent::prepareDirectory();

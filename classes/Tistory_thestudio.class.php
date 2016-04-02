@@ -14,7 +14,6 @@ class Tistory_thestudio extends GenericTistory {
 
     public function __construct($parameters) {
         parent::__construct($parameters);
-        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/image\/[\w]*/";
     }
     public function setFileName() {
         parent::setFileName();
@@ -24,6 +23,7 @@ class Tistory_thestudio extends GenericTistory {
     }
     public function setImageArray() {
         parent::setImageArray();
+        array_shift($this->imageArray[0]);
         array_shift($this->imageArray[0]);
         array_shift($this->imageArray[0]);
     }
