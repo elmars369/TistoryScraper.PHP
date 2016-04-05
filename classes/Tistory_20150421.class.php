@@ -28,6 +28,9 @@ class Tistory_20150421 extends GenericTistory {
             $this->fileName = "image";
         }
     }
+    public function setMainFolderName() {
+        parent::setMainFolderName();
+    }
     public function setSubFolderName() {
         parent::setSubFolderName();
     }

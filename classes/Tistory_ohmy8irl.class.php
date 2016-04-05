@@ -25,6 +25,9 @@ class Tistory_ohmy8irl extends GenericTistory {
     public function setFileName() {
         parent::setFileName();
     }
+    public function setMainFolderName() {
+        parent::setMainFolderName();
+    }
     public function setSubFolderName() {
         parent::setSubFolderName();
     }

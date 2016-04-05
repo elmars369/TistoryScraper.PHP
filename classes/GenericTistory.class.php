@@ -34,6 +34,15 @@ class GenericTistory {
             $this->fileName = "image";
         }
     }
+    public function setMainFolderName() {
+        $this->mainFolderName = substr($this->parameters->url, strpos($this->parameters->url, '://')+3);
+        if (strpos($this->mainFolderName, 'www.') !== FALSE) {
+            $this->mainFolderName = substr($this->mainFolderName, strpos($this->mainFolderName, 'www.')+4);
+        }
+        if (strpos($this->mainFolderName, '/') !== FALSE) {
+            $this->mainFolderName = substr($this->mainFolderName, 0, strpos($this->mainFolderName, '/'));
+        }
+    }
     public function setSubFolderName() {
         $folder_name_array = array();
         if ($this->parameters->sort == "none") {
@@ -58,13 +67,6 @@ class GenericTistory {
         }
     }
     public function prepareDirectory() {
-        $this->mainFolderName = substr($this->parameters->url, strpos($this->parameters->url, '://')+3);
-        if (strpos($this->mainFolderName, 'www.') !== FALSE) {
-            $this->mainFolderName = substr($this->mainFolderName, strpos($this->mainFolderName, 'www.')+4);
-        }
-        if (strpos($this->mainFolderName, '/') !== FALSE) {
-            $this->mainFolderName = substr($this->mainFolderName, 0, strpos($this->mainFolderName, '/'));
-        }
         if(!is_dir($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName)) {   // Make folder if it does not exist.
             mkdir($this->parameters->dir."/".$this->mainFolderName."/".$this->subFolderName, 0777, true);
         }
@@ -76,6 +78,7 @@ class GenericTistory {
         }
     }
     public function download() {
+        $this->setMainFolderName();
         foreach ($this->parameters->array as $number) {           // Download from all URLs in th argument range.
             $url = $this->parameters->url . '/' . $number;
             if ($this->html = @file_get_contents($url)) {

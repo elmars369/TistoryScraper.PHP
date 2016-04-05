@@ -21,6 +21,9 @@ class Tistory_990618 extends GenericTistory {
     public function setFileName() {
         parent::setFileName();
     }
+    public function setMainFolderName() {
+        parent::setMainFolderName();
+    }
     public function setSubFolderName() {
         parent::setSubFolderName();
     }
