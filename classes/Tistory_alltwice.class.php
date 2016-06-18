@@ -13,7 +13,6 @@ class Tistory_alltwice extends GenericTistory {
     
     public function __construct($parameters) {
         parent::__construct($parameters);
-        $this->imageUrlPattern = "/http[s]?:\/\/cfile[0-9]*\.uf.tistory.com\/attach\/[\w]*/";
         $this->sortPatternArray = array(
             "default" => "/<title>.*([0-9][0-9]\/[0-1][0-9]\/[0-3][0-9])/"
         );
@@ -35,11 +34,7 @@ class Tistory_alltwice extends GenericTistory {
         $this->subFolderName = str_replace('/', '', $this->subFolderName);
     }
     public function setImageArray() {
-        preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
-        for ($i = 0; $i < count($this->imageArray[0]); $i++) {
-            str_replace("attach", "original", $this->imageArray[0][$i]);
-        }
-        array_shift($this->imageArray[0]);
+        parent::setImageArray();
     }
     public function prepareDirectory() {
         parent::prepareDirectory();
