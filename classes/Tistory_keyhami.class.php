@@ -1,6 +1,6 @@
 <?php
 require 'GenericTistory.class.php';
-class Tistory_yooamyangel extends GenericTistory {
+class Tistory_keyhami extends GenericTistory {
     public $html;
     public $fileName;
     public $mainFolderName;
@@ -14,7 +14,7 @@ class Tistory_yooamyangel extends GenericTistory {
     public function __construct($parameters) {
         parent::__construct($parameters);
         $this->sortPatternArray = array(
-            "default" => "/<a href=\"\/[0-9]+\">([0-9][0-9][0-1][0-9][0-3][0-9])/"
+            "default" => "/<a href=\"\/[0-9]+\">([0-1][0-9][0-3][0-9])/"
         );
     }
     public function setFileName() {
@@ -28,7 +28,7 @@ class Tistory_yooamyangel extends GenericTistory {
     }
     public function setImageArray() {
         parent::setImageArray();
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             array_shift($this->imageArray[0]);
         }
     }

@@ -30,7 +30,7 @@ class Tistory_990618 extends GenericTistory {
     public function setImageArray() {
         preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
         for ($i = 0; $i < count($this->imageArray[0]); $i++) {
-            str_replace("attach", "original", $this->imageArray[0][$i]);
+            $this->imageArray[0][$i] = str_replace("attach", "original", $this->imageArray[0][$i]);
         }
     }
     public function prepareDirectory() {

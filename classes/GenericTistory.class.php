@@ -63,7 +63,7 @@ class GenericTistory {
     public function setImageArray() {
         preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
         for ($i = 0; $i < count($this->imageArray[0]); $i++) {
-            str_replace("image", "original", $this->imageArray[0][$i]);
+            $this->imageArray[0][$i] = str_replace("image", "original", $this->imageArray[0][$i]);
         }
     }
     public function prepareDirectory() {

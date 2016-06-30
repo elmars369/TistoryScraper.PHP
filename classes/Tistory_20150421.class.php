@@ -34,10 +34,7 @@ class Tistory_20150421 extends GenericTistory {
         parent::setSubFolderName();
     }
     public function setImageArray() {
-        preg_match_all($this->imageUrlPattern, $this->html, $this->imageArray);
-        for ($i = 0; $i < count($this->imageArray[0]); $i++) {
-            str_replace("image", "original", $this->imageArray[0][$i]);
-        }
+        parent::setImageArray();
         for ($i = 0; $i < 4; $i++) {
             array_shift($this->imageArray[0]);
         }

@@ -3,7 +3,7 @@
 function get_tistory_class($parameters) {
     $url = $parameters->url;
     $TISTORIES = array("20150421", "ohmy8irl", "990618", "all-twice", "thestudio",
-        "yooamyangel");
+        "yooamyangel", "keyhami");
     if ($html = @file_get_contents($url)) {
         // Check if the provided Tistory has a special class
 

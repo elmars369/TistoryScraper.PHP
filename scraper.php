@@ -23,7 +23,7 @@ $parameters = new Parameters($argv);
 if ($tistory_class = get_tistory_class($parameters)) {
     $tistory_class->download();
 } else {
-    echo 'Can not load provided URL - '.$parameters->url;
+    echo 'Can not load provided URL - '.$parameters->url.PHP_EOL;
 }
 
-echo round(((microtime(TRUE) - $start_time)/60), 1)." minutes elapsed.";
+echo round(((microtime(TRUE) - $start_time)/60), 1)." minutes elapsed.".PHP_EOL;
